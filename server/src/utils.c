@@ -4,8 +4,6 @@ t_log* logger;
 
 int iniciar_servidor(void)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	assert(!"no implementado!");
 
 	int socket_servidor;
 
@@ -17,6 +15,16 @@ int iniciar_servidor(void)
 	hints.ai_flags = AI_PASSIVE;
 
 	getaddrinfo(NULL, PUERTO, &hints, &servinfo);
+
+	socket_servidor = socket(
+		servinfo->ai_family,
+		servinfo->ai_socktype,
+		servinfo->ai_protocol
+	);
+
+	bind(socket_servidor,servinfo->ai_addr,servinfo->ai_addrlen);
+
+	listen(socket_servidor,SOMAXCONN);
 
 	// Creamos el socket de escucha del servidor
 
@@ -32,11 +40,11 @@ int iniciar_servidor(void)
 
 int esperar_cliente(int socket_servidor)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	assert(!"no implementado!");
 
 	// Aceptamos un nuevo cliente
 	int socket_cliente;
+	log_info(logger, "esperando");
+	socket_cliente = accept(socket_servidor,NULL,NULL);
 	log_info(logger, "Se conecto un cliente!");
 
 	return socket_cliente;
